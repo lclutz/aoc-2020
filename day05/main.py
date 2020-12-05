@@ -10,7 +10,8 @@ class BoardingPass:
         return self.s
 
     def getSeatID(self):
-        tmp = (self.s.replace("L", "0")
+        tmp = (self.s
+               .replace("L", "0")
                .replace("F", "0")
                .replace("B", "1")
                .replace("R", "1"))
