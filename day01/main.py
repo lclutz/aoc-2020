@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # Solution for Advent of Code 2020 Day 01
 
 import itertools
