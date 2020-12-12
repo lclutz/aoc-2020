@@ -71,9 +71,9 @@ part1 input = acc . stepUntilLoop $ computer
 
 part2 :: String -> Int
 part2 input = acc . stepUntilTerminates $ computer
-    where
-        instrucionList = fixInstructions . map parseInstruction . lines $ input
-        computer = Computer instrucionList 0 0
+  where
+    instrucionList = fixInstructions . map parseInstruction . lines $ input
+    computer = Computer instrucionList 0 0
 
 main :: IO ()
 main = do
