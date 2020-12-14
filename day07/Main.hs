@@ -51,7 +51,19 @@ mapmultiple fs x = map (\f -> f x) fs
 numberOfContainedBags :: [Bag] -> Bag -> Int
 numberOfContainedBags bs b
   | null (contains b) = 1
-  | otherwise = (+ count b) . sum . map (product . mapmultiple [count, numberOfContainedBags bs . getBagByColor bs . color]) $ contains b
+  | otherwise =
+    (+ count b)
+      . sum
+      . map
+        ( product
+            . mapmultiple
+              [ count,
+                numberOfContainedBags bs
+                  . getBagByColor bs
+                  . color
+              ]
+        )
+      $ contains b
 
 getBagByColor :: [Bag] -> String -> Bag
 getBagByColor bs c = head . filter (\x -> color x == c) $ bs

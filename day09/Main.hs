@@ -9,9 +9,9 @@ parseInput :: String -> [Int]
 parseInput = map (\x -> read x :: Int) . lines
 
 splitIntoWindows :: Int -> [a] -> [[a]]
-splitIntoWindows windowSize xs
-  | length xs == windowSize = [xs]
-  | otherwise = take windowSize xs : splitIntoWindows windowSize (drop 1 xs)
+splitIntoWindows ws xs
+  | length xs == ws = [xs]
+  | otherwise = take ws xs : splitIntoWindows ws (drop 1 xs)
 
 checkWindow :: [Int] -> Bool
 checkWindow input = x `elem` (map (uncurry (+)) . createPairs $ xs)
@@ -20,10 +20,20 @@ checkWindow input = x `elem` (map (uncurry (+)) . createPairs $ xs)
     x = input !! (length input - 1)
 
 getFirstInvalid :: [Int] -> Int -> Int
-getFirstInvalid input preamble = head . map (\x -> x !! (length x - 1)) . filter (not . checkWindow) . splitIntoWindows (preamble + 1) $ input
+getFirstInvalid input preamble =
+  head
+    . map (\x -> x !! (length x - 1))
+    . filter (not . checkWindow)
+    . splitIntoWindows (preamble + 1)
+    $ input
 
 findContinouusSet :: [Int] -> Int -> [Int]
-findContinouusSet numbers number = head . filter (\x -> number == sum x) . concatMap tails . inits $ numbers
+findContinouusSet numbers number =
+  head
+    . filter (\x -> number == sum x)
+    . concatMap tails
+    . inits
+    $ numbers
 
 part1 :: String -> Int
 part1 = (`getFirstInvalid` 25) . parseInput

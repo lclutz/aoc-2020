@@ -48,12 +48,22 @@ terminates = terminatesRec []
       | otherwise = terminatesRec (pc c : pcs) (step c)
 
 fixInstruction :: [Instruction] -> (Instruction, Int) -> [Instruction]
-fixInstruction is i = take (snd i) is ++ [swapNopJmp . fst $ i] ++ drop (snd i + 1) is
+fixInstruction is i =
+  take (snd i) is
+    ++ [swapNopJmp . fst $ i]
+    ++ drop (snd i + 1) is
 
 fixInstructions :: [Instruction] -> [Instruction]
-fixInstructions input = instructions . head . filter terminates . map (\x -> Computer (fixInstruction input x) 0 0) $ candidates
+fixInstructions input =
+  instructions
+    . head
+    . filter terminates
+    . map (\x -> Computer (fixInstruction input x) 0 0)
+    $ candidates
   where
-    candidates = filter (\x -> (fst . fst $ x) == "nop" || (fst . fst $ x) == "jmp") $ zip input [0 ..]
+    candidates =
+      filter (\x -> (fst . fst $ x) == "nop" || (fst . fst $ x) == "jmp") $
+        zip input [0 ..]
 
 stepUntilTerminates :: Computer -> Computer
 stepUntilTerminates = stepUntilTerminatesRec []
