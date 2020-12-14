@@ -69,10 +69,18 @@ getBagByColor :: [Bag] -> String -> Bag
 getBagByColor bs c = head . filter (\x -> color x == c) $ bs
 
 part1 :: String -> Int
-part1 = length . uniq . findAllParentColors ["shiny gold"] . map parseBag . lines
+part1 =
+  length
+    . uniq
+    . findAllParentColors ["shiny gold"]
+    . map parseBag
+    . lines
 
 part2 :: String -> Int
-part2 input = (-1 +) . numberOfContainedBags bags $ getBagByColor bags "shiny gold"
+part2 input =
+  (-1 +)
+    . numberOfContainedBags bags
+    $ getBagByColor bags "shiny gold"
   where
     bags = map parseBag . lines $ input
 
