@@ -22,24 +22,30 @@ part1 input =
         ++ adapter_joltages
         ++ [(+ 3) . maximum $ adapter_joltages]
 
-checkArrangement :: [Int] -> Bool
-checkArrangement = undefined
+countConnections :: [Int] -> Int -> Int
+countConnections xs n
+  | n == 0 = 1
+  | otherwise = sum . map (countConnections xs) $ validPrevNumbers
+  where
+    validPrevNumbers = filter (\x -> n - x > 0 && n - x <= 3) xs
 
-countConnectionsToIndex :: [Int] -> Int -> Int
-countConnectionsToIndex xs x
-  | x == 0 = 1
-  | otherwise = undefined
+countConnectionsFast :: [int] -> Int -> Int
+countConnectionsFast xs n = undefined
 
 part2 :: String -> Int
-part2 input = countConnectionsToIndex joltages ((-1 +) . length $ joltages)
+part2 input =
+  (`countConnections` maximum parsedInput)
+    . ([0] ++)
+    . (\x -> x ++ [(+ 3) . maximum $ x])
+    $ parsedInput
   where
-    adapter_joltages = parseInput input
-    joltages = [0] ++ adapter_joltages ++ [(+ 3) . maximum $ adapter_joltages]
+    parsedInput = parseInput input
 
 main :: IO ()
 main = do
   contents <- readFile "input.txt"
   putStrLn $ ("part 1: " ++) . show . part1 $ contents
+  putStrLn $ ("part 2: " ++) . show . part2 $ contents
 
 example1 :: String
 example1 =
